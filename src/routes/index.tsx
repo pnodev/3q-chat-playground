@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { commentsQueryOptions } from "~/queries/comments";
 export const Route = createFileRoute("/")({
   component: Home,
@@ -8,31 +8,65 @@ export const Route = createFileRoute("/")({
 
 function Home() {
   const [id, setId] = useState<string | null>(null);
+  const ref = useRef<HTMLInputElement>(null);
   return (
-    <form
-      className="p-6 flex flex-col gap-8 max-w-[800px] mx-auto"
-      onSubmit={(e) => {
-        e.preventDefault();
-        const fd = new FormData(e.target as HTMLFormElement);
-        setId(fd.get("id") as string);
-      }}
-    >
-      <div className="flex gap-2 items-center">
-        <input
-          name="id"
-          type="text"
-          placeholder="ID"
-          className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 border shadow placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-        />
-        <button
-          type="submit"
-          className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-        >
-          Submit
-        </button>
-      </div>
-      {id && <Results id={id} />}
-    </form>
+    <>
+      <form
+        className="p-6 flex flex-col gap-8 max-w-[800px] mx-auto"
+        onSubmit={(e) => {
+          e.preventDefault();
+          const fd = new FormData(e.target as HTMLFormElement);
+          setId(fd.get("id") as string);
+        }}
+      >
+        <div className="flex flex-col gap-2 items-center">
+          <button
+            onClick={() => {
+              if (ref.current) {
+                ref.current.value = "0e5cb2f3-4994-4919-8b43-63342fcfd371";
+              }
+            }}
+            type="button"
+            className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-md inset-ring inset-ring-gray-300 hover:bg-gray-50"
+          >
+            kommunal.info
+            <span className="text-gray-500 ml-2">
+              [0e5cb2f3-4994-4919-8b43-63342fcfd371]
+            </span>
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              if (ref.current) {
+                ref.current.value = "0adff0c0-e2d3-49e5-9e66-385ef2a82252";
+              }
+            }}
+            className="rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-md inset-ring inset-ring-gray-300 hover:bg-gray-50"
+          >
+            JPK
+            <span className="text-gray-500 ml-2">
+              [0adff0c0-e2d3-49e5-9e66-385ef2a82252]
+            </span>
+          </button>
+        </div>
+        <div className="flex gap-2 items-center">
+          <input
+            name="id"
+            type="text"
+            ref={ref}
+            placeholder="ID"
+            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 border shadow placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+          />
+          <button
+            type="submit"
+            className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          >
+            Submit
+          </button>
+        </div>
+        {id && <Results id={id} />}
+      </form>
+    </>
   );
 }
 
