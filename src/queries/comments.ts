@@ -14,5 +14,12 @@ const fetchComments = createServerFn({ method: "GET" })
 export const commentsQueryOptions = (id: string) =>
   queryOptions({
     queryKey: ["comments", id],
-    queryFn: () => fetchComments({ data: id }),
+    queryFn: async () => {
+      try {
+        return await fetchComments({ data: id });
+      } catch (error) {
+        console.error("Error fetching comments:", error);
+        return [];
+      }
+    },
   });

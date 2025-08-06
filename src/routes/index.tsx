@@ -14,7 +14,6 @@ function Home() {
       onSubmit={(e) => {
         e.preventDefault();
         const fd = new FormData(e.target as HTMLFormElement);
-        console.log(fd.get("id") as string);
         setId(fd.get("id") as string);
       }}
     >
@@ -39,6 +38,15 @@ function Home() {
 
 const Results = ({ id }: { id: string }) => {
   const commentsQuery = useSuspenseQuery(commentsQueryOptions(id));
+
+  if (commentsQuery.isError) {
+    return <div>Error: {commentsQuery.error.message}</div>;
+  }
+
+  if (commentsQuery.isFetching) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <div className="flex flex-col gap-2 h-[calc(100vh-140px)] overflow-auto px-2 pb-3">
       {commentsQuery.data?.map(
