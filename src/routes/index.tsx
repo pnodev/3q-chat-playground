@@ -82,7 +82,7 @@ const Results = ({ id }: { id: string }) => {
   }
 
   return (
-    <div className="flex flex-col gap-2 h-[calc(100vh-140px)] overflow-auto px-2 pb-3">
+    <div className="flex flex-col gap-2 h-[calc(100vh-240px)] overflow-auto px-2 pb-3">
       {commentsQuery.data?.map(
         (comment: {
           id: string;
